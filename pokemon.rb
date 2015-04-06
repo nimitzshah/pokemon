@@ -48,3 +48,13 @@ class Charmander < Pokemon
     self.weakness = "water"
   end
 end
+
+class Zaptos < Pokemon
+end
+
+class Gyrados < Pokemon
+  def initialize
+    super
+    # self.type = {"water":{weakness:{}}}
+  end
+end
