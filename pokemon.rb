@@ -13,13 +13,26 @@ class Pokemon
   end
 
   def attack(pokemon)
-    multiplier = if pokemon.weakness == self.element then 2 else 1 end
-    damage = get_damage(self.attack_power, multiplier)
+    stack = 0
+    self.elements.each do |element|
+      stack += pokemon.weaknesses.count{|weakness|
+        weakness == element.name
+      }
+    end
+    damage = get_damage(self.attack_power, 2**stack)
     if damage > pokemon.hp then pokemon.hp =0 else pokemon.hp -= damage end
   end
 
   def get_damage(attack_power,multiplier)
     attack_power * multiplier
+  end
+
+  def weaknesses
+    weaknesses = []
+    self.elements.map do |element|
+      weaknesses += element.weaknesses
+    end
+    weaknesses
   end
 end
 
@@ -27,34 +40,34 @@ end
 class Squirtle < Pokemon
   def initialize
     super
-    self.element  = [Water.new]
+    self.elements  = [Water.new]
   end
 end
 
 class Bulbasaur < Pokemon
   def initialize
     super
-    self.element  = [Grass.new]
+    self.elements  = [Grass.new]
   end
 end
 
 class Charmander < Pokemon
   def initialize
     super
-    self.element  = [Fire.new]
+    self.elements  = [Fire.new]
   end
 end
 
 class Zaptos < Pokemon
   def initialize
     super
-    self.element = [Lightning.new]
+    self.elements = [Lightning.new]
   end
 end
 
 class Gyrados < Pokemon
   def initialize
     super
-    self.element = [Water.new]
+    self.elements = [Water.new, Flying.new]
   end
 end

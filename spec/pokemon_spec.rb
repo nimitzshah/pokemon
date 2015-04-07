@@ -210,7 +210,7 @@ describe Gyrados do
 
   describe "#initialize" do
     it "should be water and flying" do
-      expect(gyrados.type.sort).to eq(["water","flying"].sort)
+      expect((gyrados.elements.map do |element| element.name end).sort).to eq(["Water","Flying"].sort)
     end
   end
 
@@ -246,7 +246,7 @@ describe Grass do
     end
 
     it "sets the list of weaknesses it has" do
-      expect(grass.weaknesses.sort).to eq(["fire","flying"].sort)
+      expect(grass.weaknesses.sort).to eq(["Fire","Flying"].sort)
     end
   end
 end

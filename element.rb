@@ -5,7 +5,6 @@ class Element
   def initialize
     self.name = self.class.to_s
   end
-
 end
 
 class Grass < Element
@@ -33,5 +32,12 @@ class Lightning < Element
   def initialize
     super
     self.weaknesses = ["Rock","Fighting"]
+  end
+end
+
+class Flying < Element
+  def initialize
+    super
+    self.weaknesses = ["Lightning","Rock"]
   end
 end
