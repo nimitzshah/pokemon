@@ -1,3 +1,4 @@
+require_relative '../element'
 require_relative '../pokemon'
 
 describe Squirtle do
@@ -235,8 +236,17 @@ describe Zaptos do
       end
     end
   end
-describe Type do
-  let(:type) {described_class.new}
-  
 end
+describe Grass do
+  let(:grass) {described_class.new}
+
+  describe "#initialize" do
+    it "sets the type it is" do
+      expect(grass.name).to eq("Grass")
+    end
+
+    it "sets the list of weaknesses it has" do
+      expect(grass.weaknesses.sort).to eq(["fire","flying"].sort)
+    end
+  end
 end
