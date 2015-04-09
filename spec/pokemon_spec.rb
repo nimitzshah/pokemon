@@ -231,8 +231,18 @@ describe Zaptos do
       before do
         zaptos.attack(gyrados)
       end
+
       it "should reduce the health of opponent by 4 times" do
         expect(gyrados.hp).to eq(60)
+      end
+
+      it "does not overkill the opponent" do
+        11.times{zaptos.attack(gyrados)}
+        expect(gyrados.hp).to eq(0)
+      end
+
+      it "does not lower my pokemons health" do
+        expect(zaptos.hp).to eq(100)
       end
     end
   end
