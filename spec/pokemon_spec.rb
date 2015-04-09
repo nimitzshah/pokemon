@@ -1,3 +1,4 @@
+require_relative '../element'
 require_relative '../pokemon'
 
 describe Squirtle do
@@ -200,6 +201,52 @@ describe Charmander do
       11.times { charmander.attack(other_charmander) }
 
       expect(other_charmander.hp).to eq(0)
+    end
+  end
+end
+
+describe Gyrados do
+  let(:gyrados) {described_class.new}
+
+  describe "#initialize" do
+    it "should be water and flying" do
+      expect((gyrados.elements.map do |element| element.name end).sort).to eq(["Water","Flying"].sort)
+    end
+  end
+
+end
+
+describe Zaptos do
+  let(:zaptos) {described_class.new}
+
+  describe "#initialize" do
+    it "sets the initial hp" do
+      expect(zaptos.hp).to eq(100)
+    end
+  end
+
+  describe "#attack" do
+    context "against water and air type" do
+      let(:gyrados) {Gyrados.new}
+      before do
+        zaptos.attack(gyrados)
+      end
+      it "should reduce the health of opponent by 4 times" do
+        expect(gyrados.hp).to eq(60)
+      end
+    end
+  end
+end
+describe Grass do
+  let(:grass) {described_class.new}
+
+  describe "#initialize" do
+    it "sets the type it is" do
+      expect(grass.name).to eq("Grass")
+    end
+
+    it "sets the list of weaknesses it has" do
+      expect(grass.weaknesses.sort).to eq(["Fire","Flying"].sort)
     end
   end
 end

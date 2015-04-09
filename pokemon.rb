@@ -2,25 +2,37 @@
 # Use weakness because a Pokemons weakness stacks. # For example.
 # Gyrados is "flying" and water so if attacked by lightning it will
 # get 4 times the damage.
-
 class Pokemon
   attr_accessor :hp
-  attr_accessor :type
+  attr_accessor :elements
   attr_accessor :attack_power
-  attr_accessor :weakness
 
   def initialize
     self.hp = 100
     self.attack_power = 10
   end
+
   def attack(pokemon)
-    multiplier = if pokemon.weakness == self.type then 2 else 1 end
-    damage = get_damage(self.attack_power, multiplier)
+    stack = 0
+    self.elements.each do |element|
+      stack += pokemon.weaknesses.count{|weakness|
+        weakness == element.name
+      }
+    end
+    damage = get_damage(self.attack_power, 2**stack)
     if damage > pokemon.hp then pokemon.hp =0 else pokemon.hp -= damage end
   end
 
   def get_damage(attack_power,multiplier)
     attack_power * multiplier
+  end
+
+  def weaknesses
+    weaknesses = []
+    self.elements.map do |element|
+      weaknesses += element.weaknesses
+    end
+    weaknesses
   end
 end
 
@@ -28,23 +40,34 @@ end
 class Squirtle < Pokemon
   def initialize
     super
-    self.type     = "water"
-    self.weakness = "grass"
+    self.elements  = [Water.new]
   end
 end
 
 class Bulbasaur < Pokemon
   def initialize
     super
-    self.type     = "grass"
-    self.weakness = "fire"
+    self.elements  = [Grass.new]
   end
 end
 
 class Charmander < Pokemon
   def initialize
     super
-    self.type     = "fire"
-    self.weakness = "water"
+    self.elements  = [Fire.new]
+  end
+end
+
+class Zaptos < Pokemon
+  def initialize
+    super
+    self.elements = [Lightning.new]
+  end
+end
+
+class Gyrados < Pokemon
+  def initialize
+    super
+    self.elements = [Water.new, Flying.new]
   end
 end
